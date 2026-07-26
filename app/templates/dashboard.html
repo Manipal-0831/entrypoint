@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Dashboard &middot; EntryPoint{% endblock %}
+
+{% block content %}
+<h1>Your dashboard</h1>
+
+<div class="dash-section">
+  <h2>Jobs you've posted</h2>
+  {% if posted %}
+    {% for job in posted %}
+    <div class="job-card">
+      <div class="job-head">
+        <div>
+          <div class="job-title"><a href="{{ url_for('main.job_detail', job_id=job.id) }}">{{ job.title }}</a></div>
+          <div class="job-company">{{ job.company_name }} &middot; {{ job.location }}</div>
+        </div>
+        <span class="tag" data-status-badge="{{ job.id }}">{{ 'Open' if job.is_active else 'Closed' }}</span>
+      </div>
+      <div class="job-owner-actions">
+        <a class="btn-secondary" href="{{ url_for('main.edit_job', job_id=job.id) }}">Edit</a>
+        <button type="button" class="ghost-btn" data-close-job-btn data-job-id="{{ job.id }}">
+          {{ 'Close listing' if job.is_active else 'Reopen listing' }}
+        </button>
+      </div>
+    </div>
+    {% endfor %}
+  {% else %}
+    <div class="empty-state"><p>You haven't posted anything yet. <a href="{{ url_for('main.post_job') }}">Share a job lead</a>.</p></div>
+  {% endif %}
+</div>
+
+<div class="dash-section">
+  <h2>Jobs you've saved</h2>
+  {% if saved %}
+    {% for job in saved %}
+    <div class="job-card">
+      <div class="job-title"><a href="{{ url_for('main.job_detail', job_id=job.id) }}">{{ job.title }}</a></div>
+      <div class="job-company">{{ job.company_name }} &middot; {{ job.location }}</div>
+    </div>
+    {% endfor %}
+  {% else %}
+    <div class="empty-state"><p>Nothing saved yet — browse the <a href="{{ url_for('main.index') }}">feed</a> and save a few.</p></div>
+  {% endif %}
+</div>
+{% endblock %}

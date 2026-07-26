@@ -1,0 +1,50 @@
+<article class="job-card" data-job-id="{{ job.id }}">
+  <div class="job-head">
+    <div>
+      <div class="job-title"><a href="{{ url_for('main.job_detail', job_id=job.id) }}">{{ job.title }}</a></div>
+      <div class="job-company">{{ job.company_name }} &middot; {{ job.location }}</div>
+    </div>
+    <span class="job-meta">{{ job.created_at.strftime('%d %b') }}</span>
+  </div>
+
+  <div class="job-tags">
+    <span class="tag tag-fresher">{{ job.experience_level }}</span>
+    <span class="tag">{{ job.job_type }}</span>
+    {% if not job.is_active %}<span class="tag">Closed</span>{% endif %}
+  </div>
+
+  {% if job.skills_required %}<p class="muted">{{ job.skills_required }}</p>{% endif %}
+
+  {% if job.image_url %}
+    <img class="job-image" src="{{ job.image_url }}" alt="" loading="lazy">
+  {% endif %}
+
+  <div class="job-actions">
+    <button type="button"
+            class="save-btn {{ 'is-saved' if current_user.has_saved(job) }}"
+            data-save-btn>
+      <span data-save-label>{{ 'Saved' if current_user.has_saved(job) else 'Save' }}</span>
+      <span class="count" data-save-count>{{ job.save_count() }}</span>
+    </button>
+
+    <button type="button" class="ghost-btn" data-toggle-comments>
+      Discuss <span class="count" data-comment-count>{{ job.comment_count() }}</span>
+    </button>
+
+    {% if job.external_link %}
+      <a class="ghost-btn" href="{{ job.external_link }}" target="_blank" rel="noopener noreferrer">Apply / view link &rarr;</a>
+    {% endif %}
+  </div>
+
+  <div class="comments" data-comments hidden>
+    <ul class="comment-list" data-comment-list>
+      {% for comment in job.comments %}
+      <li><strong>{{ comment.author.name }}</strong> {{ comment.body }}</li>
+      {% endfor %}
+    </ul>
+    <form class="comment-form" data-comment-form>
+      <input type="text" maxlength="300" placeholder="Ask a question or share a tip&hellip;" required>
+      <button type="submit">Send</button>
+    </form>
+  </div>
+</article>

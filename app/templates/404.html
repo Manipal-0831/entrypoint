@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Not found &middot; EntryPoint{% endblock %}
+
+{% block content %}
+<div class="empty-state">
+  <h1>404</h1>
+  <p>That page doesn't exist. <a href="{{ url_for('main.index') if current_user.is_authenticated else url_for('auth.login') }}">Head back.</a></p>
+</div>
+{% endblock %}

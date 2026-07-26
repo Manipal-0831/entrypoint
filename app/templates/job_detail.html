@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}{{ job.title }} &middot; EntryPoint{% endblock %}
+
+{% block content %}
+<div class="job-detail">
+  {% include "_job_card.html" %}
+
+  <div class="section-heading">
+    <h2>Full description</h2>
+  </div>
+  <p style="white-space: pre-wrap;">{{ job.description }}</p>
+
+  <p class="muted">Posted by {{ job.poster.name }} on {{ job.created_at.strftime('%d %b %Y') }}</p>
+
+  {% if job.posted_by == current_user.id %}
+    <a class="btn-secondary" href="{{ url_for('main.edit_job', job_id=job.id) }}">Edit this listing</a>
+  {% endif %}
+</div>
+{% endblock %}

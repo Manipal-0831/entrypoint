@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit job' if editing else 'Post a job' }} &middot; EntryPoint{% endblock %}
+
+{% block content %}
+<div class="narrow-form">
+  <h1>{{ 'Edit job listing' if editing else 'Share a job you\'ve heard about' }}</h1>
+  <p class="muted">Know of an opening — a link, a WhatsApp flyer, anything? Post it here for other freshers.</p>
+
+  <form method="post">
+    <label for="title">Job title</label>
+    <input id="title" name="title" type="text" required value="{{ form.title }}">
+
+    <label for="company_name">Company</label>
+    <input id="company_name" name="company_name" type="text" required value="{{ form.company_name }}">
+
+    <label for="location">Location</label>
+    <input id="location" name="location" type="text" required value="{{ form.location }}">
+
+    <div class="field-row">
+      <div>
+        <label for="job_type">Job type</label>
+        <select id="job_type" name="job_type" required>
+          {% for jt in JOB_TYPES %}
+          <option value="{{ jt }}" {{ 'selected' if form.job_type == jt }}>{{ jt }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label for="experience_level">Experience level</label>
+        <select id="experience_level" name="experience_level" required>
+          {% for lvl in EXPERIENCE_LEVELS %}
+          <option value="{{ lvl }}" {{ 'selected' if form.experience_level == lvl }}>{{ lvl }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <label for="skills_required">Skills (comma separated)</label>
+    <input id="skills_required" name="skills_required" type="text" value="{{ form.skills_required }}"
+           placeholder="e.g. Python, SQL, Git">
+
+    <label for="description">Description</label>
+    <textarea id="description" name="description" rows="6" required>{{ form.description }}</textarea>
+
+    <label for="external_link">Link to apply / original posting (optional)</label>
+    <input id="external_link" name="external_link" type="url" value="{{ form.external_link }}">
+
+    <label for="image_url">Image URL — e.g. a screenshot of the posting (optional)</label>
+    <input id="image_url" name="image_url" type="url" value="{{ form.image_url }}">
+
+    <button type="submit" class="btn-primary">{{ 'Save changes' if editing else 'Post job' }}</button>
+  </form>
+</div>
+{% endblock %}
