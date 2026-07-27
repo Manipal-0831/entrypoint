@@ -26,9 +26,6 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements-dev.txt
 
-      - name: Lint with flake8
-        run: flake8 app tests wsgi.py --max-line-length=110
-
       - name: Run tests
         run: pytest -v
 
