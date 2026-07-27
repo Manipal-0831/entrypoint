@@ -16,12 +16,11 @@ class User(UserMixin, db.Model):
     created_at = db.Column(db.DateTime, default=utcnow)
 
     jobs_posted = db.relationship("Job", backref="poster", lazy="dynamic",
-                                   cascade="all, delete-orphan")
+        cascade="all, delete-orphan")
     saved = db.relationship("SavedJob", backref="user", lazy="dynamic",
-                             cascade="all, delete-orphan")
+        cascade="all, delete-orphan")
     comments = db.relationship("Comment", backref="author", lazy="dynamic",
-                                cascade="all, delete-orphan")
-
+        cascade="all, delete-orphan")
     def set_password(self, password):
         self.password_hash = bcrypt.generate_password_hash(password).decode("utf-8")
 
@@ -52,9 +51,9 @@ class Job(db.Model):
     created_at = db.Column(db.DateTime, default=utcnow, index=True)
 
     saves = db.relationship("SavedJob", backref="job", lazy="dynamic",
-                             cascade="all, delete-orphan")
+        cascade="all, delete-orphan")
     comments = db.relationship("Comment", backref="job", lazy="dynamic",
-                                cascade="all, delete-orphan", order_by="Comment.created_at")
+        cascade="all, delete-orphan", order_by="Comment.created_at")
 
     def save_count(self):
         return self.saves.count()

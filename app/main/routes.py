@@ -34,8 +34,8 @@ def index():
         .paginate(page=page, per_page=current_app.config["JOBS_PER_PAGE"], error_out=False)
 
     return render_template("index.html", jobs=pagination.items, pagination=pagination,
-                            q=q, location=location, job_type=job_type,
-                            experience_level=experience_level)
+        q=q, location=location, job_type=job_type,
+        experience_level=experience_level)
 
 
 @main_bp.route("/jobs/<int:job_id>")
