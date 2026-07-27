@@ -40,6 +40,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install uv (Required by Vercel CLI for Python)
+        uses: astral-sh/setup-uv@v5
+
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
